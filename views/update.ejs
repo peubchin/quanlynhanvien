@@ -1,0 +1,28 @@
+<%-include('header.ejs')%>
+<div class="container mt-5">
+        <h2 class="text-center text-primary mb-4">Sửa Nhân Viên</h2>
+        
+        <a href="/list" class="mb-3 col-3" style="text-decoration: none;">⬅ Trở về</a>
+
+        <form action="/update/<%= nhanvien._id%>" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="name" class="form-label fw-bold">Tên nhân viên:</label>
+                <input type="text" name="hoten" class="form-control" placeholder="Nhập tên nhân viên" value="<%= nhanvien.hoten %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="age" class="form-label fw-bold">Tuổi nhân viên:</label>
+                <input type="number" name="tuoi" class="form-control" placeholder="Nhập tuổi" value="<%= nhanvien.tuoi %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label fw-bold">Ảnh đại diện</label>
+                <% if(nhanvien.hinh){%>
+                    <img src="<%= '/img/'+ nhanvien.hinh %>" alt="" width="100px;">
+                    <%}else{%>
+                        <img src="/img/nophoto.png" alt="khong co hinh" width="100px">
+                    <%}%>
+                <input type="file" name="image" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-warning">✏ Sửa Nhân Viên</button>
+        </form>
+    </div>
+<%-include('footer.ejs')%>

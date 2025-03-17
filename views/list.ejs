@@ -1,0 +1,103 @@
+<%-include('header.ejs')%>
+<% if (messages.error) { %>
+  <div class="alert alert-danger" role="alert">
+    <%= messages.error %>
+  </div>
+<% } %>
+<div class="container mt-2">
+    <h2 class="text-center text-primary mb-4">Danh Sách Nhân Viên</h2>
+<div class="d-flex align-items-center">
+  <!-- sort -->
+  <div class="d-flex justify-content-start align-items-center gap-1" style="width: 300px;">
+    <label for="sortSelect" class="form-label">Sắp xếp theo:</label>
+    <select id="sortSelect" class="form-select w-50">
+        <option value="asc" <%= sortOrder === 1 ? 'selected' : '' %>>Tuổi tăng dần</option>
+        <option value="desc" <%= sortOrder === -1 ? 'selected' : '' %>>Tuổi giảm dần</option>
+    </select>
+</div>
+<!-- Form tìm kiếm -->
+<form action="/list" method="get" class="input-group w-50">
+  <input type="text" class="form-control" name="search" placeholder="Nhập tên nhân viên..." required value="<%= searchQuery || '' %>">
+  <button type="submit" class="btn btn-secondary w-25 "><i class="fa-solid fa-search"></i></button>
+</form>
+
+  <a href="/add" class="ms-auto me-3 text-decoration-none btn btn-primary mb-2">Thêm NV</a>
+</div>
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Ảnh đại diện</th>
+          <th>Tên Nhân Viên</th>
+          <th>Tuổi Nhân Viên</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i=0;i<nhanviens.length;i++){ %>
+        <tr>
+          <td>
+            <% if(nhanviens[i].hinh){%>
+              <img src="<%= '/img/'+ nhanviens[i].hinh %>" alt="" width="100px;" height="100px" style="object-fit: cover; object-position: center;">
+              <%}else{%>
+                  <img src="/img/nophoto.png" alt="khong co hinh" width="100px">
+              <%}%>
+          </td>
+          <td><%= nhanviens[i].hoten %></td>
+          <td><%= nhanviens[i].tuoi %></td>
+          <td>
+            <a class="btn btn-warning" href="/update/<%=nhanviens[i]._id %>">Sửa</a>
+            <a class="btn btn-danger" onclick="deleteStaff('<%=nhanviens[i]._id%>')">Xóa</a>
+          </td>
+        </tr>
+        <% }%>
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+      <ul class="pagination">
+        <% if (currentPage > 1) { %>
+          <li class="page-item">
+            <a class="page-link" href="/list?page=<%= currentPage - 1 %>&search=<%= searchQuery || '' %>&sort=<%= sortOrder %>">&laquo;</a>
+          </li>
+        <% } %>
+    
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+            <a class="page-link" href="/list?page=<%= i %>&search=<%= searchQuery || '' %>&sort=<%= sortOrder %>"><%= i %></a>
+          </li>
+        <% } %>
+    
+        <% if (currentPage < totalPages) { %>
+          <li class="page-item">
+            <a class="page-link" href="/list?page=<%= currentPage + 1 %>&search=<%= searchQuery || '' %>&sort=<%= sortOrder %>">&raquo;</a>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+    
+</div>
+<script>
+function deleteStaff(id) {
+  Swal.fire({
+    title: "Xóa nhân viên?",
+    text: "Bạn có chắc chắn muốn xóa nhân viên này?",
+    icon: "warning",
+    showCancelButton: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location = "/delete/" + id;
+    }
+  });
+}
+function updateStaff(id){
+window.location='/update/'+id
+}
+</script>
+<script>
+  document.getElementById("sortSelect").addEventListener("change", function() {
+      let sortValue = this.value;
+      let currentPage = new URLSearchParams(window.location.search).get('page') || 1;
+    let searchQuery = new URLSearchParams(window.location.search).get('search') || '';
+    window.location.href = `/list?page=${currentPage}&sort=${sortValue}&search=${searchQuery}`;
+  });
+</script>
+<%-include('footer.ejs')%>

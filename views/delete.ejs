@@ -1,0 +1,17 @@
+<%-include('header.ejs')%>
+
+<div class="container mt-5">
+        <h2 class="text-center text-danger mb-4">Xóa Nhân Viên</h2>
+        
+        <a href="/" class="mb-3 col-3" style="text-decoration: none;">⬅ Trở về</a>
+
+        <form action="delete" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label fw-bold">Tên nhân viên cần xóa:</label>
+                <input type="text" name="name" class="form-control" placeholder="Nhập tên nhân viên" required>
+            </div>
+            <button type="submit" class="btn btn-danger">🗑 Xóa</button>
+        </form>
+</div>
+<%-include('footer.ejs') %>
+

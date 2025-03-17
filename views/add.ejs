@@ -1,0 +1,41 @@
+<%-include('header.ejs')%>
+<div class="container mt-5">
+    <h2 class="text-center text-success mb-4">Thêm Nhân Viên Mới</h2>
+    <div class="container-fluid">
+        <a href="/list" class="mb-3 col-3" style="text-decoration: none;">⬅ Trở về</a>
+        <h1 class="mt-4">Thêm nhân viên mới</h1>
+        <form action="add" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="name" class="form-label fw-bold">Tên nhân viên:</label>
+              <input
+                type="text"
+                name="name"
+                class="form-control"
+                placeholder="Nhập tên nhân viên"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="age" class="form-label fw-bold">Tuổi nhân viên:</label>
+              <input
+                type="number"
+                name="age"
+                class="form-control"
+                placeholder="Nhập tuổi"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="image" class="form-label fw-bold">Ảnh đại diện</label>
+              <input
+                type="file"
+                name="image"
+                class="form-control"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-success">➕ Thêm Mới</button>
+          </form>
+      </div>
+  </div>
+<%-include('footer.ejs')%>
